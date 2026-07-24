@@ -221,4 +221,10 @@ __pycache__/
 
 > **Note:** Include `venv/` if your virtual environment is named `venv`, and `.venv/` if it is named `.venv`.
 
-
+---
+## 7. Run the project
+  
+From the root folder, run
+```bash
+uvicorn app.main:app --reload
+```
