@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+
+.git
+
+frontend/node_modules
+frontend/dist
+
+node_modules
+
+data/
+
+ml/project.ipynb

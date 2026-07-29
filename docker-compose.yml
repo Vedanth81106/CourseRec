@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+
+  db:
+    image: postgres:16
+
+    container_name: courserec-db
+
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: courserec
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  backend:
+
+    build: .
+
+    container_name: courserec-api
+
+    depends_on:
+      - db
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env
+
+    volumes:
+      - .:/app
+
+
+  frontend:
+
+    build:
+      context: ./frontend
+
+    container_name: courserec-web
+
+    depends_on:
+      - backend
+
+    ports:
+      - "5173:5173"
+
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+
+volumes:
+
+  postgres_data:
