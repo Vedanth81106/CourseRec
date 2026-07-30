@@ -39,6 +39,16 @@ From the project root:
 docker compose up --build
 ```
 
+### Testing:
+```bash
+docker compose -f docker-compose.test.yml up --build
+```
+
+### Production:
+```bash
+docker compose -f docker-compose.prod.yml up --build -d
+```
+
 This starts:
 
 - PostgreSQL

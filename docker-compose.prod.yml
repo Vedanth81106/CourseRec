@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: courserec-db-prod
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: courserec
+
+    ports:
+      - "5435:5432"
+
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: courserec-api-prod
+    restart: always
+
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/courserec
+
+    depends_on:
+      - db
+
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+
+    ports:
+      - "8002:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: courserec-web-prod
+    restart: always
+
+    depends_on:
+      - backend
+
+    ports:
+      - "4173:5173"
+
+volumes:
+  postgres_prod_data:

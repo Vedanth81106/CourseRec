@@ -9,6 +9,5 @@ frontend/dist
 
 node_modules
 
-data/
 
 ml/project.ipynb

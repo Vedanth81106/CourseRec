@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: courserec-db-test
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: courserec_test
+
+    ports:
+      - "5434:5432"
+
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: courserec-api-test
+    restart: unless-stopped
+
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/courserec_test
+
+    depends_on:
+      - db
+
+    command: >
+      sh -c "
+      python -c 'from app.main import app' &&
+      python -m scripts.import_csv --table courses --file data/coursera_courses.csv &&
+      python -m scripts.seed_students &&
+      python -m scripts.enrollment_script &&
+      python -m ml.train_model &&
+      uvicorn app.main:app --host 0.0.0.0 --port 8000
+      "
+    ports:
+      - "8001:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: courserec-web-test
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "5174:5173"
+
+volumes:
+  postgres_test_data:
