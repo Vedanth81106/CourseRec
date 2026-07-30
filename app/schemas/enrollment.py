@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import Optional
 
 class EnrollmentCreate(BaseModel):
     student_id: int
@@ -14,7 +14,7 @@ class EnrollmentResponse(BaseModel):
     student_id: int
     course_id: int
     progress: int
-    quiz_score: float
+    quiz_score: Optional[float] = None
     status: str
 
     class Config:
