@@ -5,8 +5,8 @@ class CourseCreate(BaseModel):
     title: str
     domain: str
     difficulty: str
-    duration: int
-    description: str
+    duration: int | None = None
+    description: str | None = None 
 
 
 class CourseResponse(BaseModel):
@@ -14,8 +14,8 @@ class CourseResponse(BaseModel):
     title: str
     domain: str
     difficulty: str
-    duration: int
-    description: str
+    duration: int | None = None
+    description: str | None = None 
 
     class Config:
         from_attributes = True
