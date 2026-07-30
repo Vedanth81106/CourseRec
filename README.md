@@ -1,6 +1,126 @@
-## 1. Create a Virtual Environment
+# Course Recommendation System
 
-Run the appropriate command for your operating system.
+## Prerequisites
+
+Make sure you have the following installed:
+
+- Git
+- Docker
+- Docker Compose
+
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/Vedanth81106/CourseRec.git
+cd CourseRec
+```
+
+---
+
+## 2. Create the Environment File
+
+Create a `.env` file in the project root.
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@db:5432/courserec
+```
+
+> If you're using Docker Compose, `db` is the PostgreSQL service name.
+
+---
+
+## 3. Build and Start the Project
+
+From the project root:
+
+```bash
+docker compose up --build
+```
+
+This starts:
+
+- PostgreSQL
+- FastAPI Backend
+- React Frontend
+
+---
+
+## 4. Access the Application
+
+Frontend:
+
+```
+http://localhost:5173
+```
+
+Backend API:
+
+```
+http://localhost:8000
+```
+
+Swagger Documentation:
+
+```
+http://localhost:8000/docs
+```
+
+---
+
+## 5. Import Courses
+
+If the database is empty, import the Coursera dataset:
+
+```bash
+docker exec -it courserec-api python scripts/import_courses.py
+```
+
+---
+
+## 6. Generate Sample Enrollments
+
+```bash
+docker exec -it courserec-api python scripts/enrollment_script.py
+```
+
+---
+
+## 7. Train the ML Model
+
+```bash
+docker exec -it courserec-api python -m ml.train_model
+```
+
+This creates:
+
+- `ml/artifacts/model.pkl`
+- `ml/artifacts/encoders.joblib`
+- `ml/artifacts/numeric_scaler.pkl`
+
+---
+
+## 8. Test the API
+
+Open Swagger UI:
+
+```
+http://localhost:8000/docs
+```
+
+Example endpoints:
+
+- `/students`
+- `/courses`
+- `/enrollments`
+- `/recommend/{student_id}`
+
+---
+
+# Running Without Docker (Optional)
+
+## 1. Create a Virtual Environment
 
 ### Windows
 
@@ -8,7 +128,7 @@ Run the appropriate command for your operating system.
 python -m venv venv
 ```
 
-### Linux / macOS
+### Linux/macOS
 
 ```bash
 python3 -m venv venv
@@ -16,33 +136,23 @@ python3 -m venv venv
 
 ---
 
-## 2. Activate the Virtual Environment
+## 2. Activate the Environment
 
-### Windows (Command Prompt)
+### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-### Windows (PowerShell)
-
-```powershell
-venv\Scripts\Activate.ps1
-```
-
-### Linux / macOS
+### Linux/macOS
 
 ```bash
 source venv/bin/activate
 ```
 
-> **Note:** Once the virtual environment is activated, your terminal prompt should display something similar to `(venv)`.
-
 ---
 
-## 3. Install Project Dependencies
-
-From the project's root directory, install the required dependencies:
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -50,65 +160,50 @@ pip install -r requirements.txt
 
 ---
 
-## 4. Create the PostgreSQL Database
-
-### Open PostgreSQL
-
-* **Windows:** Open the **psql** command-line tool.
-* **Linux / macOS:** Run:
-
-```bash
-psql -U <postgres_username>
-```
-
-### Create the database
+## 4. Create PostgreSQL Database
 
 ```sql
 CREATE DATABASE courserec;
 ```
 
-### Verify the database
-
-Run the following command:
-
-```sql
-\l
-```
-
-You should see `courserec` listed among the available databases.
-
 ---
 
-## 5. Configure Environment Variables
-
-Create a `.env` file in the project's root directory and add the following:
+## 5. Create `.env`
 
 ```env
-DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/courserec
+DATABASE_URL=postgresql://postgres:<password>@localhost:5432/courserec
 ```
-
-Replace `YOUR_PASSWORD` with your PostgreSQL password.
 
 ---
 
-## 6. Update `.gitignore`
+## 6. Run the Backend
 
-Before pushing the project to GitHub, ensure your `.gitignore` file contains the following entries:
-
-```gitignore
-venv/
-.venv/
-__pycache__/
-.env
-*.pyc
-```
-
-> **Note:** Include `venv/` if your virtual environment is named `venv`, and `.venv/` if it is named `.venv`.
-
----
-## 7. Run the project
-  
-From the root folder, run
 ```bash
 uvicorn app.main:app --reload
+```
+
+---
+
+## 7. Run the Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+# Project Structure
+
+```
+CourseRec
+├── app/                 # FastAPI backend
+├── frontend/            # React + Vite frontend
+├── ml/                  # ML training and inference
+├── scripts/             # Data import and seeding scripts
+├── data/                # CSV datasets
+├── Dockerfile
+├── docker-compose.yml
+└── requirements.txt
 ```
