@@ -3,28 +3,25 @@ import {
   FaBookOpen,
   FaClock,
   FaLayerGroup,
-  FaStar,
 } from "react-icons/fa";
 
 function CourseCard({ course }) {
   const {
     title = "Untitled Course",
-    description = "No course description is available.",
-    category = "General",
+    description = "No course description available.",
+    domain = "General",
     difficulty = "Beginner",
-    duration = "Flexible",
-    rating = 4.5,
-    provider = "CourseRec",
+    duration = null,
   } = course || {};
 
   const getDifficultyClass = () => {
-    const normalizedDifficulty = String(difficulty).toLowerCase();
+    const level = String(difficulty).toLowerCase();
 
-    if (normalizedDifficulty.includes("advanced")) {
+    if (level.includes("advanced")) {
       return "difficulty-advanced";
     }
 
-    if (normalizedDifficulty.includes("intermediate")) {
+    if (level.includes("intermediate")) {
       return "difficulty-intermediate";
     }
 
@@ -44,7 +41,7 @@ function CourseCard({ course }) {
       </div>
 
       <div className="course-card-content">
-        <span className="course-provider">{provider}</span>
+        <span className="course-provider">{domain}</span>
 
         <h3>{title}</h3>
 
@@ -53,29 +50,27 @@ function CourseCard({ course }) {
         <div className="course-meta">
           <div className="course-meta-item">
             <FaLayerGroup />
-            <span>{category}</span>
+            <span>{domain}</span>
           </div>
 
           <div className="course-meta-item">
             <FaClock />
             <span>
-              {typeof duration === "number"
-                ? `${duration} weeks`
-                : duration}
+              {duration ? `${duration} hours` : "Self-paced"}
             </span>
           </div>
         </div>
       </div>
 
       <div className="course-card-footer">
-        <div className="course-rating">
-          <FaStar />
-          <strong>{rating}</strong>
-          <span>/ 5</span>
-        </div>
-
-        <button type="button" className="course-view-button">
-          View Course
+        <button
+          type="button"
+          className="course-view-button"
+          onClick={() =>
+            alert("Enrollment feature coming soon!")
+          }
+        >
+          Enroll
           <FaArrowRight />
         </button>
       </div>

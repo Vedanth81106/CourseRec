@@ -1,11 +1,13 @@
-import SearchBar from "../components/SearchBar";
-import { getCourses } from "../services/api";
-import { useEffect, useMemo, useState } from "react";
+import StudentForm from "../components/StudentForm";
+import {
+  createStudent,
+  getRecommendations,
+} from "../services/api";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaBookOpen,
   FaExclamationTriangle,
-  FaFilter,
   FaLightbulb,
 } from "react-icons/fa";
 
@@ -15,206 +17,33 @@ import Loader from "../components/Loader";
 
 function Recommendations() {
   const [courses, setCourses] = useState([]);
-  const [searchData, setSearchData] = useState(null);
+  const [recommendation, setRecommendation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState("");
 
-  const sampleCourses = [
-    {
-      id: 1,
-      title: "Python for Beginners",
-      description:
-        "Learn Python fundamentals including variables, loops, functions, lists, and object-oriented programming.",
-      category: "Programming",
-      difficulty: "Beginner",
-      duration: 8,
-      rating: 4.8,
-      provider: "CourseRec",
-    },
-    {
-      id: 2,
-      title: "Modern Web Development",
-      description:
-        "Build responsive websites using HTML, CSS, JavaScript, React, and modern frontend development techniques.",
-      category: "Web Development",
-      difficulty: "Beginner",
-      duration: 12,
-      rating: 4.7,
-      provider: "CourseRec",
-    },
-    {
-      id: 3,
-      title: "Machine Learning Fundamentals",
-      description:
-        "Understand supervised learning, classification, regression, model evaluation, and common machine learning algorithms.",
-      category: "Machine Learning",
-      difficulty: "Intermediate",
-      duration: 12,
-      rating: 4.9,
-      provider: "CourseRec",
-    },
-    {
-      id: 4,
-      title: "UI/UX Design Essentials",
-      description:
-        "Learn user research, wireframing, prototyping, visual hierarchy, and usability principles for digital products.",
-      category: "UI/UX",
-      difficulty: "Beginner",
-      duration: 6,
-      rating: 4.6,
-      provider: "CourseRec",
-    },
-    {
-      id: 5,
-      title: "Advanced Java Programming",
-      description:
-        "Explore collections, multithreading, exception handling, JDBC, design patterns, and advanced Java concepts.",
-      category: "Programming",
-      difficulty: "Advanced",
-      duration: 16,
-      rating: 4.5,
-      provider: "CourseRec",
-    },
-    {
-      id: 6,
-      title: "Data Science with Python",
-      description:
-        "Use Python, NumPy, Pandas, and data visualization tools to clean, analyze, and understand datasets.",
-      category: "Data Science",
-      difficulty: "Intermediate",
-      duration: 10,
-      rating: 4.8,
-      provider: "CourseRec",
-    },
-  ];
-
   useEffect(() => {
-    fetchCourses();
+    setLoading(false);
   }, []);
 
-  const normalizeCourse = (course, index) => {
-    return {
-      id: course.id ?? course.course_id ?? index + 1,
-
-      title:
-        course.title ??
-        course.course_name ??
-        course.name ??
-        "Untitled Course",
-
-      description:
-        course.description ??
-        course.course_description ??
-        course.summary ??
-        "No description is available for this course.",
-
-      category:
-        course.category ??
-        course.domain ??
-        course.subject ??
-        course.skills ??
-        "General",
-
-      difficulty:
-        course.difficulty ??
-        course.level ??
-        course.course_level ??
-        "Beginner",
-
-      duration:
-        course.duration ??
-        course.duration_weeks ??
-        course.course_duration ??
-        "Flexible",
-
-      rating: Number(course.rating ?? course.score ?? 4.5),
-
-      provider:
-        course.provider ??
-        course.platform ??
-        course.institution ??
-        "CourseRec",
-    };
-  };
-
-  const fetchCourses = async () => {
-    setLoading(true);
+  const handleStudentSubmit = async (student) => {
+    setSearching(true);
     setError("");
 
     try {
+      const createdStudent = await createStudent(student);
 
-      const data = await getCourses();
-
-      const courseList = Array.isArray(data)
-        ? data
-        : data.courses || data.results || [];
-
-      const normalizedCourses = courseList.map(normalizeCourse);
-
-      setCourses(
-        normalizedCourses.length > 0 ? normalizedCourses : sampleCourses
+      const data = await getRecommendations(
+        createdStudent.student_id
       );
-    } catch (fetchError) {
-      console.error("Course loading error:", fetchError);
 
-      setCourses(sampleCourses);
-
-      setError(
-        "The backend could not be reached, so sample courses are being displayed."
-      );
+      setRecommendation(data);
+      setCourses(data.courses);
+    } catch (err) {
+      setError(err.message);
     } finally {
-      setLoading(false);
-    }
-  };
-
-  const filteredCourses = useMemo(() => {
-    if (!searchData) {
-      return courses;
-    }
-
-    const searchTerm = searchData.interest.toLowerCase();
-
-    return courses.filter((course) => {
-      const searchableText = [
-        course.title,
-        course.description,
-        course.category,
-        course.provider,
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      const matchesInterest = searchableText.includes(searchTerm);
-
-      const matchesDifficulty =
-        !searchData.difficulty ||
-        String(course.difficulty).toLowerCase() ===
-          searchData.difficulty.toLowerCase();
-
-      const numericDuration = Number(course.duration);
-
-      const matchesDuration =
-        !searchData.maxDuration ||
-        Number.isNaN(numericDuration) ||
-        numericDuration <= searchData.maxDuration;
-
-      return matchesInterest && matchesDifficulty && matchesDuration;
-    });
-  }, [courses, searchData]);
-
-  const handleSearch = (formData) => {
-    if (!formData) {
-      setSearchData(null);
-      return;
-    }
-
-    setSearching(true);
-    setSearchData(formData);
-
-    window.setTimeout(() => {
       setSearching(false);
-    }, 700);
+    }
   };
 
   if (loading) {
@@ -262,7 +91,10 @@ function Recommendations() {
         </div>
       )}
 
-      <SearchBar onSearch={handleSearch} loading={searching} />
+      <StudentForm
+          onSubmit={handleStudentSubmit}
+          loading={searching}
+      />
 
       {searching ? (
         <Loader message="Comparing your preferences with available courses..." />
@@ -276,39 +108,80 @@ function Recommendations() {
               </span>
 
               <h2>
-                {searchData
-                  ? `Recommended for “${searchData.interest}”`
-                  : "Explore available courses"}
-              </h2>
+                {recommendation
+                    ? `Recommended Learning Path`
+                    : "Generate Your Learning Path"}
+            </h2>
 
               <p>
-                {filteredCourses.length}{" "}
-                {filteredCourses.length === 1 ? "course" : "courses"} found
+                {courses.length}{" "}
+                {courses.length === 1 ? "course" : "courses"} found
               </p>
             </div>
-
-            {searchData && (
-              <div className="active-filter-summary">
-                <FaFilter />
-
-                <div>
-                  <span>Active filters</span>
-
-                  <strong>
-                    {searchData.difficulty || "Any level"}
-                    {" · "}
-                    {searchData.maxDuration
-                      ? `Up to ${searchData.maxDuration} weeks`
-                      : "Any duration"}
-                  </strong>
-                </div>
-              </div>
-            )}
           </div>
 
-          {filteredCourses.length > 0 ? (
+            {recommendation && (
+              <motion.div
+                className="glass-card recommendation-summary"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className="summary-header">
+                  <div>
+                    <span className="recommendations-eyebrow">
+                      AI Recommendation
+                    </span>
+
+                    <h3>Your Personalized Learning Path</h3>
+
+                  </div>
+                </div>
+
+                <div className="summary-stats">
+
+                  <div className="summary-stat glass-card">
+                    <span className="summary-label">
+                      Predicted Domain
+                    </span>
+
+                    <h2>{recommendation.predicted_domain}</h2>
+                  </div>
+
+                  <div className="summary-stat glass-card">
+                    <span className="summary-label">
+                      Recommended Level
+                    </span>
+
+                    <h2>{recommendation.recommended_difficulty}</h2>
+                  </div>
+
+                  <div className="summary-stat glass-card">
+                    <span className="summary-label">
+                      AI Confidence
+                    </span>
+
+                    <h2>
+                      {(recommendation.confidence * 100).toFixed(1)}%
+                    </h2>
+                  </div>
+
+                  <div className="summary-stat glass-card">
+                    <span className="summary-label">
+                      Courses Suggested
+                    </span>
+
+                    <h2>{courses.length}</h2>
+                  </div>
+
+                </div>
+
+          
+              </motion.div>
+            )}
+          {courses.length > 0 ? (
             <div className="course-results-grid">
-              {filteredCourses.map((course, index) => (
+              {courses.map((course, index) => (
                 <motion.div
                   key={course.id}
                   initial={{ opacity: 0, y: 28 }}
@@ -338,10 +211,13 @@ function Recommendations() {
               <button
                 type="button"
                 className="primary-btn"
-                onClick={() => setSearchData(null)}
-              >
-                Show All Courses
-              </button>
+                onClick={() => {
+                    setRecommendation(null);
+                    setCourses([]);
+                }}
+            >
+                Clear Results
+            </button>
             </div>
           )}
         </section>

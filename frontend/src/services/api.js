@@ -73,4 +73,37 @@ export const deleteCourse = async (courseId) => {
   }
 };
 
+export const getStudents = async () => {
+  try {
+    const response = await api.get("/students/");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.detail ||
+      error.message ||
+      "Unable to load students."
+    );
+  }
+};
+
+export const getRecommendations = async (studentId) => {
+  try {
+    const response = await api.get(
+      `/recommendations/${studentId}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.detail ||
+      error.message ||
+      "Unable to generate recommendations."
+    );
+  }
+};
+
+export const createStudent = async (student) => {
+  const response = await api.post("/students/", student);
+  return response.data;
+};
+
 export default api;

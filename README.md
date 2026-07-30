@@ -68,26 +68,33 @@ http://localhost:8000/docs
 ```
 
 ---
+## 4. Import Students
 
-## 5. Import Courses
+
+```bash
+docker exec -it courserec-api python -m scripts.seed_students
+```
+
+---
+## 6. Import Courses
 
 If the database is empty, import the Coursera dataset:
 
 ```bash
-docker exec -it courserec-api python scripts/import_courses.py
+docker exec -it courserec-api python scripts/import_csv.py --table courses --file data/coursera_courses.csv
 ```
 
 ---
 
-## 6. Generate Sample Enrollments
+## 7. Generate Sample Enrollments
 
 ```bash
-docker exec -it courserec-api python scripts/enrollment_script.py
+docker exec -it courserec-api python -m scripts.enrollment_script
 ```
 
 ---
 
-## 7. Train the ML Model
+## 8. Train the ML Model
 
 ```bash
 docker exec -it courserec-api python -m ml.train_model
@@ -101,7 +108,7 @@ This creates:
 
 ---
 
-## 8. Test the API
+## 9. Test the API
 
 Open Swagger UI:
 

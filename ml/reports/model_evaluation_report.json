@@ -1,22 +1,22 @@
 {
   "target": "domain",
-  "n_training_rows": 100,
+  "n_training_rows": 89,
   "model_comparison": {
     "RandomForest": {
-      "test_accuracy": 0.52,
-      "test_macro_f1": 0.2687,
+      "test_accuracy": 0.913,
+      "test_macro_f1": 0.547,
       "cv_accuracy_mean": null,
       "cv_accuracy_std": null
     },
     "LogisticRegression": {
-      "test_accuracy": 0.52,
-      "test_macro_f1": 0.2687,
+      "test_accuracy": 0.9565,
+      "test_macro_f1": 0.6,
       "cv_accuracy_mean": null,
       "cv_accuracy_std": null
     }
   },
-  "best_model": "RandomForest",
-  "best_model_test_accuracy": 0.52,
+  "best_model": "LogisticRegression",
+  "best_model_test_accuracy": 0.9565,
   "classification_report": {
     "Arts and Humanities": {
       "precision": 0.0,
@@ -24,171 +24,55 @@
       "f1-score": 0.0,
       "support": 0.0
     },
-    "Business": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1-score": 0.0,
-      "support": 2.0
-    },
-    "Cloud Computing": {
-      "precision": 0.2,
-      "recall": 0.3333333333333333,
-      "f1-score": 0.25,
-      "support": 3.0
-    },
     "Computer Science": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1-score": 0.0,
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.8,
       "support": 3.0
-    },
-    "Cyber Security": {
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1-score": 0.5,
-      "support": 4.0
     },
     "Data Science": {
       "precision": 1.0,
-      "recall": 0.8181818181818182,
-      "f1-score": 0.9,
-      "support": 11.0
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 20.0
     },
-    "Programming": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1-score": 0.0,
-      "support": 0.0
-    },
-    "Web Development": {
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1-score": 0.5,
-      "support": 2.0
-    },
-    "accuracy": 0.52,
+    "accuracy": 0.9565217391304348,
     "macro avg": {
-      "precision": 0.275,
-      "recall": 0.268939393939394,
-      "f1-score": 0.26875,
-      "support": 25.0
+      "precision": 0.6666666666666666,
+      "recall": 0.5555555555555555,
+      "f1-score": 0.6,
+      "support": 23.0
     },
     "weighted avg": {
-      "precision": 0.584,
-      "recall": 0.52,
-      "f1-score": 0.546,
-      "support": 25.0
+      "precision": 1.0,
+      "recall": 0.9565217391304348,
+      "f1-score": 0.9739130434782608,
+      "support": 23.0
     }
   },
   "confusion_matrix": [
     [
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
       0
     ],
     [
-      1,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
-    [
-      0,
-      0,
-      1,
-      1,
-      1,
-      0,
-      0,
-      0
-    ],
-    [
-      0,
-      0,
-      1,
-      0,
-      1,
-      0,
-      1,
-      0
-    ],
-    [
-      0,
-      0,
-      1,
       1,
       2,
-      0,
-      0,
       0
     ],
     [
       0,
       0,
-      1,
-      0,
-      0,
-      9,
-      0,
-      1
-    ],
-    [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
+      20
     ]
   ],
   "class_labels_in_test": [
     "Arts and Humanities",
-    "Business",
-    "Cloud Computing",
     "Computer Science",
-    "Cyber Security",
-    "Data Science",
-    "Programming",
-    "Web Development"
+    "Data Science"
   ],
-  "top_feature_importances": {
-    "career_goal_encoded": 0.19974656414032393,
-    "learning_style_encoded": 0.12044593373470981,
-    "semester": 0.10048846165779908,
-    "cgpa": 0.09391695986111946,
-    "interests_Web": 0.07352283023146594,
-    "branch_encoded": 0.07134625935729098,
-    "interests_Docker": 0.06905190720091994,
-    "interests_AWS": 0.06456452996092359,
-    "interests_React": 0.06338004901765956,
-    "degree_encoded": 0.028928648206057547,
-    "interests_Python": 0.02250928698903204,
-    "interests_Cyber Security": 0.015030757243813848,
-    "interests_SQL": 0.01364089446252409,
-    "interests_Data Science": 0.012498482616991031,
-    "interests_Java": 0.009718202475872491
-  },
-  "train_size": 75,
-  "test_size": 25
+  "top_feature_importances": {},
+  "train_size": 66,
+  "test_size": 23
 }

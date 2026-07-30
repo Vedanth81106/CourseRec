@@ -3,7 +3,6 @@ from pydantic import BaseModel
 class StudentCreate(BaseModel):
     name: str
     email: str
-    password: str
     degree: str
     branch: str
     semester: int
@@ -25,6 +24,6 @@ class StudentResponse(BaseModel):
     learning_style: str
     career_goal: str
 
-class Config:
+    class Config:
         from_attributes = True #not in pydantic form issok
         

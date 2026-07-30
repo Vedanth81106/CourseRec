@@ -8,7 +8,6 @@ def create_student(db: Session, student: StudentCreate):
     db_student = Student(
         name=student.name,
         email=student.email,
-        password=student.password,
         degree=student.degree,
         branch=student.branch,
         semester=student.semester,

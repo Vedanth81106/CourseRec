@@ -116,10 +116,30 @@ def prepare_features(df: pd.DataFrame, encoders: dict, scaler: StandardScaler = 
     df = encode_dataframe(df, encoders, columns=STUDENT_NOMINAL_COLUMNS, keep_original=False)
     nominal_feature_cols = [f"{c}_encoded" for c in STUDENT_NOMINAL_COLUMNS]
 
-    # interests -> MultiLabelBinarizer (one 0/1 column per known interest)
-    df = encode_multilabel_dataframe(df, encoders, columns=STUDENT_MULTI_LABEL_COLUMNS, keep_original=False)
-    multilabel_feature_cols = [f"interests_{cls}" for cls in encoders["interests"].classes_]
+    # interests -> MultiLabelBinarizer
+    df = encode_multilabel_dataframe(
+        df,
+        encoders,
+        columns=STUDENT_MULTI_LABEL_COLUMNS,
+        keep_original=False,
+    )
 
+    multilabel_feature_cols = [
+        f"interests_{cls}"
+        for cls in encoders["interests"].classes_
+    ]
+
+    # Keep ONLY the expected interest columns and create any missing ones.
+    for col in multilabel_feature_cols:
+        if col not in df.columns:
+            df[col] = 0
+
+    unexpected_interest_cols = [
+        c for c in df.columns
+        if c.startswith("interests_") and c not in multilabel_feature_cols
+    ]
+
+    df.drop(columns=unexpected_interest_cols, inplace=True)
     # numeric fields -> scaled, always in the same fixed order
     if fit_scaler:
         scaler = StandardScaler()
@@ -129,7 +149,14 @@ def prepare_features(df: pd.DataFrame, encoders: dict, scaler: StandardScaler = 
 
     # Fixed, explicit column order -- independent of whatever order the
     # input DataFrame's columns happened to be in.
-    feature_cols = nominal_feature_cols + multilabel_feature_cols + NUMERIC_FEATURES
+    feature_cols = (
+        nominal_feature_cols +
+        multilabel_feature_cols +
+        NUMERIC_FEATURES
+    )
+    
+    df = df.reindex(columns=feature_cols, fill_value=0)
+    
     return df[feature_cols], scaler, feature_cols
 
 
