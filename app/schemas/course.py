@@ -7,6 +7,7 @@ class CourseCreate(BaseModel):
     difficulty: str
     duration: int | None = None
     description: str | None = None 
+    url: str | None = None
 
 
 class CourseResponse(BaseModel):

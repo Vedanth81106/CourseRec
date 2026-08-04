@@ -14,6 +14,7 @@ class Course(Base):
     difficulty = Column(String)
     duration = Column(Integer)
     description = Column(Text)
+    url = Column(String)
 
     enrollments = relationship(
         "Enrollment",

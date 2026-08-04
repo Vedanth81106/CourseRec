@@ -22,6 +22,7 @@ SUPPORTED_TABLES = {
             "difficulty",
             "duration",
             "description",
+            "url"
         ],
         "required": [
             "title",
@@ -78,6 +79,7 @@ def convert_course_row(row: dict) -> dict:
         "difficulty": clean_value(row.get("difficulty")),
         "duration": duration,
         "description": clean_value(row.get("description")),
+        "url": clean_value(row.get("url")),
     }
 
 
@@ -122,14 +124,16 @@ def import_courses(connection, rows: list[dict]) -> tuple[int, int]:
             domain,
             difficulty,
             duration,
-            description
+            description,
+            url
         )
         SELECT
             :title,
             :domain,
             :difficulty,
             :duration,
-            :description
+            :description,
+            :url
         WHERE NOT EXISTS (
             SELECT 1
             FROM courses

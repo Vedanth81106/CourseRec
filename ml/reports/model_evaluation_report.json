@@ -1,78 +1,110 @@
 {
   "target": "domain",
-  "n_training_rows": 89,
+  "n_training_rows": 116,
   "model_comparison": {
     "RandomForest": {
-      "test_accuracy": 0.913,
-      "test_macro_f1": 0.547,
+      "test_accuracy": 0.6897,
+      "test_macro_f1": 0.5298,
       "cv_accuracy_mean": null,
       "cv_accuracy_std": null
     },
     "LogisticRegression": {
-      "test_accuracy": 0.9565,
-      "test_macro_f1": 0.6,
+      "test_accuracy": 0.6897,
+      "test_macro_f1": 0.5298,
       "cv_accuracy_mean": null,
       "cv_accuracy_std": null
     }
   },
-  "best_model": "LogisticRegression",
-  "best_model_test_accuracy": 0.9565,
+  "best_model": "RandomForest",
+  "best_model_test_accuracy": 0.6897,
   "classification_report": {
-    "Arts and Humanities": {
+    "Computer Science": {
+      "precision": 0.4444444444444444,
+      "recall": 0.5714285714285714,
+      "f1-score": 0.5,
+      "support": 7.0
+    },
+    "Data Science": {
+      "precision": 0.9166666666666666,
+      "recall": 0.6875,
+      "f1-score": 0.7857142857142857,
+      "support": 16.0
+    },
+    "Information Technology": {
+      "precision": 0.8333333333333334,
+      "recall": 0.8333333333333334,
+      "f1-score": 0.8333333333333334,
+      "support": 6.0
+    },
+    "Physical Science and Engineering": {
       "precision": 0.0,
       "recall": 0.0,
       "f1-score": 0.0,
       "support": 0.0
     },
-    "Computer Science": {
-      "precision": 1.0,
-      "recall": 0.6666666666666666,
-      "f1-score": 0.8,
-      "support": 3.0
-    },
-    "Data Science": {
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1-score": 1.0,
-      "support": 20.0
-    },
-    "accuracy": 0.9565217391304348,
+    "accuracy": 0.6896551724137931,
     "macro avg": {
-      "precision": 0.6666666666666666,
-      "recall": 0.5555555555555555,
-      "f1-score": 0.6,
-      "support": 23.0
+      "precision": 0.5486111111111112,
+      "recall": 0.5230654761904762,
+      "f1-score": 0.5297619047619048,
+      "support": 29.0
     },
     "weighted avg": {
-      "precision": 1.0,
-      "recall": 0.9565217391304348,
-      "f1-score": 0.9739130434782608,
-      "support": 23.0
+      "precision": 0.78544061302682,
+      "recall": 0.6896551724137931,
+      "f1-score": 0.7266009852216748,
+      "support": 29.0
     }
   },
   "confusion_matrix": [
     [
-      0,
-      0,
-      0
-    ],
-    [
+      4,
       1,
-      2,
+      1,
+      1
+    ],
+    [
+      5,
+      11,
+      0,
       0
     ],
     [
       0,
       0,
-      20
+      5,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0
     ]
   ],
   "class_labels_in_test": [
-    "Arts and Humanities",
     "Computer Science",
-    "Data Science"
+    "Data Science",
+    "Information Technology",
+    "Physical Science and Engineering"
   ],
-  "top_feature_importances": {},
-  "train_size": 66,
-  "test_size": 23
+  "top_feature_importances": {
+    "career_goal_encoded": 0.11327748987144332,
+    "branch_encoded": 0.1114660293406789,
+    "interests_React": 0.10496799167638915,
+    "learning_style_encoded": 0.083808550390927,
+    "interests_JavaScript": 0.08346214046929905,
+    "interests_Networking": 0.07873386267714146,
+    "cgpa": 0.07724932955199791,
+    "semester": 0.07606258653361803,
+    "interests_Linux": 0.05556562253464369,
+    "interests_Python": 0.04463970651775755,
+    "interests_Java": 0.0429340419064227,
+    "interests_Spring": 0.04072862093900403,
+    "interests_AI": 0.03527741627451543,
+    "degree_encoded": 0.02672311906121721,
+    "interests_Cyber Security": 0.008401617430745335
+  },
+  "train_size": 87,
+  "test_size": 29
 }

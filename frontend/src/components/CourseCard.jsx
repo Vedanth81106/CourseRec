@@ -12,6 +12,7 @@ function CourseCard({ course }) {
     domain = "General",
     difficulty = "Beginner",
     duration = null,
+    url,
   } = course || {};
 
   const getDifficultyClass = () => {
@@ -63,16 +64,25 @@ function CourseCard({ course }) {
       </div>
 
       <div className="course-card-footer">
-        <button
-          type="button"
-          className="course-view-button"
-          onClick={() =>
-            alert("Enrollment feature coming soon!")
-          }
-        >
-          Enroll
-          <FaArrowRight />
-        </button>
+        {url ? (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="course-view-button"
+          >
+            View Course
+            <FaArrowRight />
+          </a>
+        ) : (
+          <button
+            type="button"
+            className="course-view-button"
+            disabled
+          >
+            Link Unavailable
+          </button>
+        )}
       </div>
     </article>
   );

@@ -38,8 +38,16 @@ def score_from_cgpa(c):
 def progress(status):
     return 100 if status=="Completed" else (0 if status=="Not Started" else random.randint(30,90))
 def choose_status(diff):
-    w={"Beginner":[75,20,5],"Intermediate":[45,40,15],"Advanced":[20,50,30]}[diff]
-    return random.choices(["Completed","In Progress","Not Started"],weights=w,k=1)[0]
+    weights = {
+        "Beginner": [75, 20, 5],
+        "Intermediate": [45, 40, 15],
+        "Advanced": [20, 50, 30],
+    }
+
+    return random.choices(
+        ["Completed", "In Progress", "Not Started"],
+        weights=weights.get(diff, [50, 35, 15]),
+    )[0]
 def seed_enrollments(db:Session):
     db.query(Enrollment).delete()
     db.commit()
