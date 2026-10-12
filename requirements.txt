@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 sqlalchemy
-psycopg2-binary
+psycopg[binary]
 python-dotenv
 pydantic
 pandas
@@ -9,5 +9,4 @@ numpy
 scikit-learn
 joblib
 faker
-pandas
 playwright

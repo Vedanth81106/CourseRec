@@ -22,7 +22,7 @@ SUPPORTED_TABLES = {
             "difficulty",
             "duration",
             "description",
-            "url"
+            "url",
         ],
         "required": [
             "title",
@@ -128,7 +128,7 @@ def import_courses(connection, rows: list[dict]) -> tuple[int, int]:
             url
         )
         SELECT
-            :title,
+            CAST(:title AS VARCHAR),
             :domain,
             :difficulty,
             :duration,
@@ -137,7 +137,7 @@ def import_courses(connection, rows: list[dict]) -> tuple[int, int]:
         WHERE NOT EXISTS (
             SELECT 1
             FROM courses
-            WHERE LOWER(title) = LOWER(:title)
+            WHERE LOWER(title) = LOWER(CAST(:title AS VARCHAR))
         )
         """
     )
@@ -166,14 +166,14 @@ def import_students(connection, rows: list[dict]) -> tuple[int, int]:
             preferred_difficulty
         )
         SELECT
-            :name,
-            :email,
+            CAST(:name AS VARCHAR),
+            CAST(:email AS VARCHAR),
             :interests,
             :preferred_difficulty
         WHERE NOT EXISTS (
             SELECT 1
             FROM students
-            WHERE LOWER(email) = LOWER(:email)
+            WHERE LOWER(email) = LOWER(CAST(:email AS VARCHAR))
         )
         """
     )
@@ -267,6 +267,8 @@ def main() -> None:
         print(f"CSV file not found: {csv_path}")
         sys.exit(1)
 
+    engine = None
+
     try:
         rows = load_csv(csv_path, args.table)
 
@@ -300,6 +302,10 @@ def main() -> None:
     except ValueError as error:
         print(f"CSV error: {error}")
         sys.exit(1)
+
+    finally:
+        if engine is not None:
+            engine.dispose()
 
 
 if __name__ == "__main__":
