@@ -1,0 +1,12 @@
+title,domain,difficulty,duration,description,url
+Internet of Things: Sensing and Actuation From Devices,IoT Embedded Systems,Intermediate,4,"Interface sensors and actuators, acquire sensor data, and control devices such as stepper motors and LEDs.",https://www.coursera.org/learn/internet-of-things-sensing-actuation
+Motors and Motor Control Circuits,EEE,Intermediate,4,"Study AC and DC motors, motor selection, torque and speed, rotary sensors, and motor-control circuits.",https://www.coursera.org/learn/motors-circuits-design
+Electric Motor Modeling and Control,EEE,Advanced,4,"Model electric motors and implement open-loop, closed-loop, PWM, and field-oriented control strategies.",https://www.coursera.org/learn/electric-motor-modeling-and-control
+Fundamentals of Digital Design for VLSI Chip Design,ECE,Intermediate,2,"Learn digital logic, combinational and sequential circuits, FPGA concepts, memory systems, and the VLSI design flow.",https://www.coursera.org/learn/fundamentals-of-digital-design-for-vlsi-chip-design
+Digital Signal Processing 1: Basic Concepts and Algorithms,ECE,Intermediate,3,"Study discrete-time signals, vector-space representations, Fourier analysis, and core DSP algorithms.",https://www.coursera.org/learn/dsp1
+Digital Signal Processing 2: Filtering,ECE,Intermediate,3,"Learn digital filter design, filtering methods, and adaptive signal processing.",https://www.coursera.org/learn/dsp2
+Digital Signal Processing 3: Analog vs Digital,ECE,Intermediate,2,"Explore sampling, interpolation, quantization, A/D and D/A converters, and multirate signal processing.",https://www.coursera.org/learn/dsp3
+Digital Signal Processing 4: Applications,ECE,Advanced,1,Apply DSP methods to practical signal-processing and communication-system problems.,https://www.coursera.org/learn/dsp4
+Fundamentals of Robotics & Industrial Automation,Mechanical Engineering,Intermediate,1,"Explore industrial robotics, machine controls, manufacturing processes, and automation systems.",https://www.coursera.org/learn/fundamentals-of-robotics--industrial-automation
+Robotic Technologies,Mechanical Engineering,Advanced,1,"Explore advanced robotic platforms, robot embodiment, human-robot interaction, humanoids, and soft robots.",https://www.coursera.org/learn/robotic-technologies
+"Modern Robotics: Mechanics, Planning, and Control",Mechanical Engineering,Advanced,12,"Study robot kinematics, dynamics, motion planning, and control through mathematical models and applications.",https://www.coursera.org/specializations/modernrobotics
